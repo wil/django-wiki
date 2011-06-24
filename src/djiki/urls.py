@@ -9,8 +9,4 @@ urlpatterns = patterns('',
 	url(r'^(?P<title>[^/]+)/diff/$', views.diff, name='djiki-page-diff'),
 	url(r'^(?P<title>[^/]+)/undo/(?P<revision_pk>[0-9]+)/$', views.undo, name='djiki-page-undo'),
 	url(r'^(?P<title>[^/]+)/revert/(?P<revision_pk>[0-9]+)/$', views.revert, name='djiki-page-revert'),
-	url(r'^image/$', views.image_new, name='djiki-image-new'),
-	url(r'^image/(?P<name>[^/]+)$', views.image_view, name='djiki-image-view'),
-	url(r'^image/(?P<name>[^/]+)/edit/$', views.image_edit, name='djiki-image-edit'),
-	url(r'^image/(?P<name>[^/]+)/history/$', views.image_history, name='djiki-image-history'),
 	)
