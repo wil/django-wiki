@@ -6,3 +6,9 @@
 media/djimages
 media/cache
 local_settings.py
+bin/
+eggs/
+parts/
+develop-eggs/
+src/*.egg-info/
+
