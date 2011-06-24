@@ -13,7 +13,7 @@ Feel free to replace it with anything you like.
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>{% block title %}Djiki{% endblock %}</title>
 	<link rel="stylesheet" type="text/css" href="https://github.com/nathansmith/960-Grid-System/raw/master/code/css/960.css" />
-	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/styles.css" />
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}djiki/css/styles.css" />
 </head>
 <body>
 	<div id="header" class="container_12">
@@ -38,23 +38,6 @@ Feel free to replace it with anything you like.
 	{% endif %}
 	{% endblock %}
 {% block page %}{% endblock %}
-{% block google-analytics %}
-{% if GOOGLE_ANALYTICS_ID %}
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', '{{ GOOGLE_ANALYTICS_ID }}']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
-{% endif %}
-{% endblock %}
 </body>
 </html>
 
