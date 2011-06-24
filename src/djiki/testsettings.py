@@ -15,7 +15,7 @@ INSTALLED_APPS = [
 	'django.contrib.admin',
 	'django.contrib.admindocs',
 	'django.contrib.comments',
-	# 'south',
+	'south',
 	'djiki',
 ]
 ROOT_URLCONF = 'djiki.testurls'
