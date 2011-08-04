@@ -10,6 +10,10 @@ from django.views.generic.simple import direct_to_template
 from urllib import urlencode, quote
 from . import models, forms, utils
 
+def index(request):
+    return direct_to_template(request, 'djiki/index.html',
+            {'pages': models.Page.objects.all()})
+
 def view(request, title, revision_pk=None):
     url_title = utils.urlize_title(title)
     if title != url_title:
