@@ -46,7 +46,9 @@ def view(request, title, revision_pk=None):
         response.write(revision.content)
         return response
     return direct_to_template(request, 'djiki/view.html',
-            {'page': page, 'revision': revision})
+            {'page': page,
+             'revision': revision,
+             'editable': settings.DJIKI_ALLOW_ANONYMOUS_EDITS or request.user.is_authenticated()})
 
 def edit(request, title):
     if not settings.DJIKI_ALLOW_ANONYMOUS_EDITS and not request.user.is_authenticated():
@@ -81,7 +83,10 @@ def edit(request, title):
                 return HttpResponseRedirect(
                     reverse('djiki-page-view', kwargs={'title': url_title}))
     return direct_to_template(request, 'djiki/edit.html',
-            {'form': form, 'page': page, 'preview_content': preview_content})
+            {'form': form,
+             'page': page,
+             'preview_content': preview_content,
+             'editable': settings.DJIKI_ALLOW_ANONYMOUS_EDITS or request.user.is_authenticated()})
 
 def history(request, title):
     url_title = utils.urlize_title(title)
@@ -90,7 +95,11 @@ def history(request, title):
     page_title = utils.deurlize_title(title)
     page = get_object_or_404(models.Page, title=page_title)
     history = page.revisions.order_by('-created')
-    return direct_to_template(request, 'djiki/history.html', {'page': page, 'history': history})
+    return direct_to_template(request,
+                              'djiki/history.html',
+                              {'page': page,
+                               'history': history,
+                               'editable': settings.DJIKI_ALLOW_ANONYMOUS_EDITS or request.user.is_authenticated()})
 
 def diff(request, title):
     url_title = utils.urlize_title(title)
@@ -106,7 +115,11 @@ def diff(request, title):
     dmp = diff_match_patch()
     diff = dmp.diff_compute(from_rev.content, to_rev.content, True, 2)
     return direct_to_template(request, 'djiki/diff.html',
-            {'page': page, 'from_revision': from_rev, 'to_revision': to_rev, 'diff': diff})
+            {'page': page,
+             'from_revision': from_rev,
+             'to_revision': to_rev,
+             'diff': diff,
+             'editable': settings.DJIKI_ALLOW_ANONYMOUS_EDITS or request.user.is_authenticated()})
 
 def revert(request, title, revision_pk):
     if not settings.DJIKI_ALLOW_ANONYMOUS_EDITS and not request.user.is_authenticated():
@@ -135,7 +148,10 @@ def revert(request, title, revision_pk):
         form = forms.PageEditForm(data=request.POST or None, instance=new_revision, page=page,
                                   initial={'content': src_revision.content, 'description': description})
     return direct_to_template(request, 'djiki/edit.html',
-            {'page': page, 'form': form, 'src_revision': src_revision})
+            {'page': page,
+             'form': form,
+             'src_revision': src_revision,
+             'editable': settings.DJIKI_ALLOW_ANONYMOUS_EDITS or request.user.is_authenticated()})
 
 def undo(request, title, revision_pk):
     if not settings.DJIKI_ALLOW_ANONYMOUS_EDITS and not request.user.is_authenticated():
@@ -184,4 +200,6 @@ def undo(request, title, revision_pk):
             urlencode(urldata)))
         form = forms.PageEditForm(data=request.POST or None, page=page,
                                   initial={'content': content, 'description': description})
-    return direct_to_template(request, 'djiki/edit.html', {'page': page, 'form': form})
+    return direct_to_template(request, 'djiki/edit.html', {'page': page,
+                                                           'form': form,
+                                                           'editable': settings.DJIKI_ALLOW_ANONYMOUS_EDITS or request.user.is_authenticated()})
